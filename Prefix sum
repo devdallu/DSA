@@ -65,3 +65,21 @@ func sumOfRangeWithQueryEfficient(arr: [Int], query: [(L: Int, R: Int)], length:
 }
 sumOfRangeWithQueryEfficient(arr: arr, query: query, length: length)
 
+/// prefix sum for even inde 
+func prefixSumofEven(arr:[Int]) -> [Int] {
+    var pfSum = [Int](repeating: 0, count: arr.count)
+    pfSum[0] = arr[0]
+     
+    for i in 1 ..< arr.count-1 {
+        if i % 2 == 0 {
+            pfSum[i] = pfSum[i-1] + arr[i] /// this sholud for else part need to interchange for odd index
+        } else {
+            pfSum[i] = pfSum[i-1]
+        }
+    }
+    return pfSum
+}
+var even = prefixSumofEven(arr: arr)
+print(even)
+
+
