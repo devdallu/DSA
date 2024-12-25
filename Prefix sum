@@ -1,0 +1,66 @@
+import UIKit
+import Foundation
+
+var arr = [1,2,3,4,5]
+var query = [(L:0, R:2)]
+var length = arr.count - 1
+/// Brute Force Approach
+/// Time complexity O(n*q) and space complexity O(1)
+func sumOfRangeWithQuery(arr: [Int], query: [(L: Int, R: Int)], length: Int) -> [Int] {
+    var sumResult = [Int]()
+    for item in 0 ..< query.count {
+        let l = query[item].L
+        let r = query[item].R
+        var sum  = 0
+        for i in l ... r {
+            sum = sum + arr[i]
+        }
+        sumResult.append(sum)
+    }
+    return sumResult
+    
+}
+var sumofRange = sumOfRangeWithQuery(arr: arr, query: query, length: length)
+print(sumofRange)
+
+func prefixSum(arr:[Int], length:Int) -> [Int] {
+    var pfSum = [Int]()
+    for i in 0 ... length {
+        var sum  = 0
+        for j in 0 ... i {
+            sum += arr[j]
+        }
+        pfSum.append(sum)
+    }
+    return pfSum
+}
+
+
+var pfSum = prefixSum(arr: arr, length: length)
+print("The pfSum of arr \(pfSum)")
+
+/// Effcient approach
+func prefixSum(arr: [Int]) -> [Int] {
+    var psSum = [Int](repeating: 0, count: arr.count)
+    psSum[0] = arr[0]
+    for i in 1 ... arr.count-1 {
+        psSum[i] = psSum[i - 1] + arr[i]
+    }
+    return psSum
+}
+func sumOfRangeWithQueryEfficient(arr: [Int], query: [(L: Int, R: Int)], length: Int) -> [Int] {
+    var pfSum = prefixSum(arr: arr)
+    for i in query {
+        var l = i.L
+        var r = i.R
+        if l == 0 {
+            print(pfSum)
+        } else {
+            print("Efficient approach", pfSum[r] - pfSum[l - 1])
+        }
+    }
+    
+    return [Int]()
+}
+sumOfRangeWithQueryEfficient(arr: arr, query: query, length: length)
+
