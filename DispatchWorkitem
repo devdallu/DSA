@@ -1,0 +1,16 @@
+let workItem = DispatchWorkItem {
+    for item in 1 ... 5 {
+        guard !workItem.isCancelled else {
+            print("Work item is canclled")
+            return }
+        print("Processing \(item)")
+        sleep(2)
+    }
+}
+
+DispatchQueue.global().async(execute: workItem)
+
+
+DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+    workItem.cancel()
+}
