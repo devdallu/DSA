@@ -1,0 +1,43 @@
+import UIKit
+/// possible subarray
+
+func possibleSubArray() {
+    var arr = [1,2,3]
+
+    for i in 0 ..< arr.count {
+        for j in i ..< arr.count{
+            for k in i ... j {
+                print(arr[k], terminator: ",")
+            }
+        }
+    }
+}
+possibleSubArray()
+
+func minPossibleSubArray() {
+    var arr = [2,2,6,4,5,1,5,2,6,4,1]
+
+    var maxValue = arr.max()
+    var minValue = arr.min()
+    var last_max_index = -1
+    var last_min_index = -1
+    var ans = arr.count + 1
+    
+    for i in 0 ..< arr.count {
+        if arr[i] == minValue {
+            last_min_index = i
+            
+            if last_max_index != -1 {
+                ans = min(ans, i - last_max_index + 1)
+            }
+        }
+        if arr[i] == maxValue {
+            last_max_index = i
+            if last_min_index != -1 {
+                ans = min(ans, i - last_min_index + 1)
+            }
+        }
+    }
+    print("ans",ans)
+}
+minPossibleSubArray()
