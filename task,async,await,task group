@@ -1,0 +1,56 @@
+import UIKit
+
+func fetchOne() async throws -> String {
+    try await Task.sleep(nanoseconds: 1_000_000_000)
+    return "One"
+}
+
+func fetchTwo() async throws -> String {
+    try await Task.sleep(nanoseconds: 1_000_000_000)
+    return "Two"
+}
+func fetchThree() async throws -> String {
+    try await Task.sleep(nanoseconds: 1_000_000_000)
+    return "Three"
+}
+
+@MainActor
+func updateUI(_ result: String) {
+    print("Fetch \(result)")
+}
+
+func loadStructure() async {
+    
+    await withTaskGroup(of: (String.self)) { group in
+        group.addTask {
+            do {
+                return try await fetchOne()
+            } catch {
+                print("Error in fetch one \(error)")
+                return "Error \(error)"
+            }
+        }
+        group.addTask {
+            do {
+                return try await fetchTwo()
+            } catch {
+                print("Error in fetch two \(error)")
+                return "Error \(error)"
+            }
+        }
+        group.addTask {
+            do {
+                return try await fetchThree()
+            } catch {
+                print("Error in fetch three \(error)")
+                return "Error \(error)"
+            }
+        }
+        for await result in group {
+            await updateUI(result)
+        }
+    }
+}
+Task {
+    await loadStructure()
+}
