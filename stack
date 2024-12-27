@@ -1,0 +1,43 @@
+import UIKit
+
+class MainQueue {
+    var mainStack:[Int] = []
+    var minStack:[Int] = []
+    
+    func enQueue(_ x: Int) {
+        mainStack.append(x)
+        
+        if minStack.isEmpty || x <= minStack.last! {
+            minStack.append(x)
+        }
+        print(mainStack,minStack)
+    }
+    
+    func deQueue() -> Int? {
+        if mainStack.isEmpty {
+                  return nil
+              }
+        let dequeue = mainStack.removeFirst()
+        if let minTop = minStack.first, dequeue == minTop {
+            minStack.removeFirst()
+        }
+        return dequeue
+    }
+    
+    func peak() -> Int? {
+        return mainStack.first
+    }
+    func minElement() -> Int? {
+        return minStack.last
+    }
+    
+    
+}
+let mainQueue = MainQueue()
+mainQueue.enQueue(5)
+mainQueue.enQueue(3)
+mainQueue.enQueue(7)
+print(mainQueue.minElement())
+//mainQueue.deQueue(5)
+//mainQueue.deQueue(7)
+//mainQueue.deQueue(3)
