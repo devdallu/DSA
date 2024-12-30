@@ -1,0 +1,37 @@
+protocol Animal {
+    associatedtype Sound
+    func makeSound() -> Sound
+}
+
+struct Dog: Animal {
+    func makeSound() -> String {
+        return "Barrrrrrk"
+    }
+}
+
+struct Car: Animal {
+    func makeSound() -> String {
+        return "Meowww"
+    }
+}
+
+
+
+struct AnyAnimal<Sound>: Animal {
+    private let _makeSound:() -> Sound
+    
+    init<A:Animal>(_ animal: A) where A.Sound == Sound {
+        self._makeSound = animal.makeSound
+    }
+    
+    func makeSound() -> Sound {
+        return _makeSound()
+    }
+}
+
+
+var animal = [AnyAnimal(Dog())]
+
+for item in animal {
+    print(item.makeSound())
+}
