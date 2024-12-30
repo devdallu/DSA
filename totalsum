@@ -1,0 +1,78 @@
+/// subarray sum
+
+func findSubArraySum(arr:[Int], length: Int) {
+    var max_sum = 0
+    for i in 0 ..< length {
+        for j in i ..< length {
+            var sum = 0
+            for k in i ... j {
+                sum = sum + arr[k]
+                max_sum = max(max_sum, sum)
+            }
+        }
+    }
+    print(max_sum)
+}
+
+
+func prefixSum(arr:[Int]) -> [Int] {
+    var pfSum = [Int](repeating: 0, count: arr.count)
+    pfSum[0] = arr[0]
+    for i in 1 ..< arr.count {
+        pfSum[i] = pfSum[i - 1] + arr[i]
+    }
+    return pfSum
+}
+
+func findSubArraySumEffi(arr:[Int], length: Int) {
+    var max_sum = 0
+    var pfSum = prefixSum(arr: arr)
+    
+    for i in 0 ..< arr.count {
+       
+        for j in i ..< arr.count {
+            var sum = 0
+            if i == 0 {
+                sum = pfSum[j]
+            } else {
+                sum = pfSum[j] - pfSum[i - 1]
+            }
+            max_sum = max(max_sum, sum)
+        }
+       
+    }
+    print(max_sum)
+    
+}
+var arr = [1,2,3,4]
+findSubArraySumEffi(arr: arr , length:arr.count )
+/// more efficient
+
+
+
+func findSubArraySumMoreEffi(arr:[Int], length: Int) {
+    var max_sum = Int.min
+    for i in 0 ..< length {
+        var current_sum = 0
+        for j in i ..< length {
+            current_sum = current_sum + arr[j]
+            max_sum = max(max_sum, current_sum)
+        }
+    }
+    print(max_sum)
+}
+
+func findTotalSumofSubarrays(arr:[Int]) {
+
+    var totalSum = 0
+    for i  in 0 ..< arr.count {
+        var current_sum = 0
+        for j in i ..< arr.count {
+            current_sum = current_sum + arr[j]
+            totalSum = totalSum + current_sum
+        }
+    }
+    print(totalSum)
+    
+}
+findTotalSumofSubarrays(arr: arr)
